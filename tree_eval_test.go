@@ -37,6 +37,8 @@ func TestTrees (t *testing.T) {
         {"trees/tree4.data", 42},
         {"trees/tree5.data", 42},
         {"trees/tree6.data", 42},
+        {"trees/tree7.data", -50},
+        {"trees/tree8.data", 10},
     }
 
     for _, testCase := range testCases {
@@ -69,6 +71,7 @@ func TestDeserializer (t *testing.T) {
     }{
         {"+ 1 _ _ * - 5 _ _ 6 _ _ 3 _ _"},  // Ok case
         {"+ 1 _ _ * - 5 _ _ 6 _ _ 3 _ _ \n \n"},
+        {"+ 1 _ _ * - -5 _ _ -6 _ _ -3 _ _"},
 
         {""},  // Empty
         {"\n\n\n\t\n"},
@@ -97,6 +100,7 @@ func TestEvaluator (t *testing.T) {
     }{
         {"+ 1 _ _ * - 5 _ _ 6 _ _ 3 _ _", true},
         {"+ 1 _ _ * - 5 _ _ 6 _ _ 3", true},
+        {"+ 1 _ _ * - -5 _ _ -6 _ _ -3 _ _", true},
         {"1 2 3 4", true},
 
         {"+ 1 _ _ * - 5 _ _ 6 _ 3 _ _", false},
