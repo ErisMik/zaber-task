@@ -4,6 +4,7 @@ import "fmt"
 import "os"
 import "strconv"
 import "flag"
+import "bufio"
 
 type TreeNode struct {
     Value  string
@@ -30,26 +31,26 @@ func perform_arthmitic(result *int, operation string, left_value int, right_valu
     if operation == "." {
         *result = left_value / right_value
     }
+
+    // fmt.Printf("%d %s %d\n", left_value, operation, right_value)
 }
 
-func deserialize_tree(node *TreeNode, f *os.File) *TreeNode {
+func deserialize_tree(node *TreeNode, s *bufio.Scanner) *TreeNode {
     if node == nil {
         node = &TreeNode{}
     }
 
-    bytes := make([]byte, 2)
-    n, err := f.Read(bytes)
-    check_null(err)
+    new_token := s.Scan()
 
-    if n < 1 {
+    if !new_token {
         node.Value = "_"
     } else {
-        node.Value = string(bytes[0])
+        node.Value = s.Text()
     }
 
     if node.Value != "_" {
-        node.LeftChild = deserialize_tree(node.LeftChild, f)
-        node.RightChild = deserialize_tree(node.RightChild, f)
+        node.LeftChild = deserialize_tree(node.LeftChild, s)
+        node.RightChild = deserialize_tree(node.RightChild, s)
     }
 
     return node
@@ -77,9 +78,11 @@ func main() {
 
     f, err := os.Open(filename)
     check_null(err)
+    scanner := bufio.NewScanner(bufio.NewReader(f))
+    scanner.Split(bufio.ScanWords)
 
     root := TreeNode{}
-    deserialize_tree(&root, f)
+    deserialize_tree(&root, scanner)
     f.Close()
 
     result := evaluate_tree(&root)
