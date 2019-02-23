@@ -73,6 +73,9 @@ func TestDeserializer (t *testing.T) {
         {"+ 1 _ _ * - 5 _ _ 6 _ _ 3 _ _ \n \n"},
         {"+ 1 _ _ * - -5 _ _ -6 _ _ -3 _ _"},
 
+        {"+ 1.0 _ _ * - 5.4 _ _ 6.3 _ _ 3.00 _ _"}, // Float case
+        {"* 1.0 _ _ 6 _ _"},
+
         {""},  // Empty
         {"\n\n\n\t\n"},
 
@@ -103,7 +106,10 @@ func TestEvaluator (t *testing.T) {
         {"+ 1 _ _ * - -5 _ _ -6 _ _ -3 _ _", true},
         {"1 2 3 4", true},
 
-        {"+ 1 _ _ * - 5 _ _ 6 _ 3 _ _", false},
+        {"+ 1.0 _ _ * - 5.4 _ _ 6.3 _ _ 3.00 _ _", false}, // Float case
+        {"* 1.0 _ _ 6 _ _", false},
+
+        {"+ 1 _ _ * - 5 _ _ 6 _ 3 _ _", false},  // Not a valid tree
         {"+ 1", false},
         {"+ + + + _ _", false},
         {" _ _ 1 2 3 4 5", false},
