@@ -1,3 +1,5 @@
+# Don't commit the binary
+zaber-task
 
 # Created by https://www.gitignore.io/api/go,linux,sublimetext
 # Edit at https://www.gitignore.io/?templates=go,linux,sublimetext
